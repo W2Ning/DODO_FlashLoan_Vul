@@ -24,20 +24,29 @@
 ![image](https://github.com/W2Ning/DODO_FlashLoan_Vul/blob/main/vul_code.png)
 
 > 攻击者首先生成两种垃圾Token
+
+
 > 调用 `wCRES/USDT` 交易对合约的flashLoan函数 借出上百万美金的wCRES 和USDT
+
+
 > 通过init 函数把两个Token 地址改为自己刚刚生成的两个垃圾Token
+
+
 > 并把垃圾Token 还给交易对合约, 躲过require的检查
 
 ![image](https://github.com/W2Ning/DODO_FlashLoan_Vul/blob/main/require.png)
 
-> 讽刺的是该合约声明了`notInitialized`的modifier,但是确并没有使用...
+> 讽刺的是该合约声明了`notInitialized`的modifier,但却并没有使用...
 
 ![image](https://github.com/W2Ning/DODO_FlashLoan_Vul/blob/main/modifier.png)
 
-> 好玩的地方来了, 也许是攻击合约中的`Transfer Back`函数命名过于普通?并且同样为`Public`权限, 攻击者两次想把赃款从合约中提取出来的行为都被Bot监控到并且抢先提款,攻击者提了个寂寞...
+> 好玩的地方来了, 也许是攻击合约中的`Transfer Back`函数命名过于普通?
+
+> 并且同样为`Public`权限
+
+> 攻击者两次想把赃款从合约中提取出来的行为都被Bot监控到并且抢先提款,攻击者提了个寂寞...
 
 ![image](https://github.com/W2Ning/DODO_FlashLoan_Vul/blob/main/Front%20Running.png)
-
 
 > 只能说Dark Forest名不虚传.
 
@@ -52,7 +61,9 @@ npx ganache-cli  --fork https://eth-mainnet.alchemyapi.io/v2/your_api_key@120000
 * 通过ERC20Factory 生成两个垃圾Token 
 
 > 由于ganache拿不到正确的返回值，也查不到Event 
+
 > 所以需要修改一下ERC20Factory合约
+
 > 这样才能查到新生成的Token地址是什么...
 
 ![image](https://github.com/W2Ning/DODO_FlashLoan_Vul/blob/main/erc20_newToken.png)
@@ -61,7 +72,7 @@ npx ganache-cli  --fork https://eth-mainnet.alchemyapi.io/v2/your_api_key@120000
 
 ![image](https://github.com/W2Ning/DODO_FlashLoan_Vul/blob/main/Add_Token_On_Metamask.png)
 
-* 为了方便我已经手动把两个垃圾Token 打给了`wCRES/USDT` 交易对合约地址
+* 为了方便我已经手动把两个垃圾Token 打给了`wCRES/USDT` 交易对合约
 
 * 攻击合约如下
 
@@ -130,9 +141,9 @@ contract poc{
     address maintainer = 0x95C4F5b83aA70810D4f142d58e5F7242Bd891CB0;
     
 
-    // 这里是刚生产的Token1地址
+    // 这里是刚生成的Token1地址
     address token1 = 0xAB48b42e6a98e671ff58338D5dD2fE44409b82D6;
-    // 这里是刚生产的Token2地址
+    // 这里是刚生成的Token2地址
     address token2 = 0x1469A47A1700Cdf4cF030c0Fc7F2f45F24008228;
     
     uint256 lpFeeRate = 3000000000000000;
@@ -178,6 +189,5 @@ contract poc{
 ![image](https://github.com/W2Ning/DODO_FlashLoan_Vul/blob/main/attack.png)
 
 * 成功
-
 
 ![image](https://github.com/W2Ning/DODO_FlashLoan_Vul/blob/main/Success.png)
